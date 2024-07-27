@@ -1,5 +1,7 @@
 namespace Volumetric;
 
+using System.Drawing;
+
 static class Program
 {
     /// <summary>
