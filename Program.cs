@@ -31,42 +31,8 @@ public class Vector
         Y = y;
         Z = z;
     }
-
-    // Method for vector addition
-    public static Vector Add(Vector a, Vector b)
-    {
-        return new Vector(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
-    }
-
-    // Method for vector subtraction
-    public static Vector Subtract(Vector a, Vector b)
-    {
-        return new Vector(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
-    }
-
-    // Method for scalar multiplication
-    public static Vector Multiply(Vector a, double scalar)
-    {
-        return new Vector(a.X * scalar, a.Y * scalar, a.Z * scalar);
-    }
-
-    // Method for vector cross product (vector multiplication)
-    public static Vector CrossProduct(Vector a, Vector b)
-    {
-        return new Vector(
-            a.Y * b.Z - a.Z * b.Y,
-            a.Z * b.X - a.X * b.Z,
-            a.X * b.Y - a.Y * b.X
-        );
-    }
-
-    // Method to compute the length (magnitude) of the vector
-    public double Length()
-    {
-        return Math.Sqrt(X * X + Y * Y + Z * Z);
-    }
-
-    // Method to normalize the vector (make it a unit vector)
+	
+    // Making unit vector
     public Vector Normalize()
     {
         double length = Length();
@@ -76,9 +42,60 @@ public class Vector
         return new Vector(X / length, Y / length, Z / length);
     }
 
+    public static Vector Add(Vector a, Vector b)
+    {
+        return new Vector(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
+    }
+
+    public static Vector Subtract(Vector a, Vector b)
+    {
+        return new Vector(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
+    }
+
+    // Method for scalar multiplication by number
+    public static Vector Multiply(Vector a, double scalar)
+    {
+        return new Vector(a.X * scalar, a.Y * scalar, a.Z * scalar);
+    }
+
+    // Method for vector multiplication
+    public static Vector CrossProduct(Vector a, Vector b)
+    {
+        return new Vector(
+            a.Y * b.Z - a.Z * b.Y,
+            a.Z * b.X - a.X * b.Z,
+            a.X * b.Y - a.Y * b.X
+        );
+    }
+	
+	public static double DotProduct(Vector a, Vector b)
+	{
+		return a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+	}
+	
+    public double Length()
+    {
+        return Math.Sqrt(X * X + Y * Y + Z * Z);
+    }
+
+	
+	public static Vector Projection(Vector a, Vector b)
+	{
+		double bLengthSquared = b.X * b.X + b.Y * b.Y + b.Z * b.Z;
+		if (bLengthSquared == 0)
+			throw new InvalidOperationException("Cannot project onto a zero-length vector.");
+
+		double dotProduct = a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+		double scale = dotProduct / bLengthSquared;
+
+		return new Vector(b.X * scale, b.Y * scale, b.Z * scale);
+	}
+
     // Override ToString for easy printing
     public override string ToString()
     {
         return $"Vector({X}, {Y}, {Z})";
     }
+	
+	
 }
