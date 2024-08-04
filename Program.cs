@@ -20,58 +20,59 @@ static class Program
 public class Vector
 {
     // Properties for the vector components
-    public double X { get; private set; }
-    public double Y { get; private set; }
-    public double Z { get; private set; }
+    public double x { get; private set; }
+    public double y { get; private set; }
+    public double z { get; private set; }
 
     // Constructor to initialize the vector
-    public Vector(double x, double y, double z)
+    public Vector(double x_, double y_, double z_)
     {
-        X = x;
-        Y = y;
-        Z = z;
+        x = x_;
+        y = y_;
+        z = z_;
+    }
+	
+	// Override ToString for easy printing
+    public override string ToString(){
+        return $" Vector({x}, {y}, {z}) ";
+    }
+	
+    public double Length(){
+        return Math.Sqrt(x * x + y * y + z * z);
     }
 	
     // Making unit vector
-    public Vector Normalize()
+    public Vector Norm() //normalized
     {
         double length = Length();
         if (length == 0)
             throw new InvalidOperationException("Cannot normalize a zero-length vector.");
         
-        return new Vector(X / length, Y / length, Z / length);
+        return new Vector(x / length, y / length, z / length);
     }
-
-    public static Vector Add(Vector a, Vector b){
-        return new Vector(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
-    }
-
-    public static Vector Subtract(Vector a, Vector b){
-        return new Vector(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
-    }
-
-    // Method for scalar multiplication by number
-    public static Vector Multiply(Vector a, double scalar){
-        return new Vector(a.X * scalar, a.Y * scalar, a.Z * scalar);
-    }
-
-    // Method for vector multiplication
-    public static Vector CrossProduct(Vector a, Vector b){
-        return new Vector(
-            a.Y * b.Z - a.Z * b.Y,
-            a.Z * b.X - a.X * b.Z,
-            a.X * b.Y - a.Y * b.X
+	
+	public static Vector operator +(Vector a, Vector b) =>
+		new Vector(a.x + b.x, a.y + b.y, a.z + b.z);
+		
+	public static Vector operator -(Vector a, Vector b) =>
+		new Vector(a.x - b.x, a.y - b.y, a.z - b.z);
+		
+	public static Vector operator *(double m, Vector a) =>
+		new Vector(a.x * m, a.y * m, a.z * m);
+		
+	public static Vector operator *(Vector a, double m) =>
+		m*a;
+		
+	public static double operator *(Vector a, Vector b) =>
+		a.x * b.x + a.y * b.y + a.z * b.z;
+		
+	// % Cross product
+	public static double operator %(Vector a, Vector b) =>
+		new Vector(
+            a.y * b.z - a.z * b.y,
+            a.z * b.x - a.x * b.z,
+            a.x * b.y - a.y * b.x
         );
-    }
-	
-	public static double DotProduct(Vector a, Vector b){
-		return a.X * b.X + a.Y * b.Y + a.Z * b.Z;
-	}
-	
-    public double Length(){
-        return Math.Sqrt(X * X + Y * Y + Z * Z);
-    }
-
 	
 	public static Vector Projection(Vector a, Vector b){
 		double bLengthSquared = b.X * b.X + b.Y * b.Y + b.Z * b.Z;
@@ -83,28 +84,34 @@ public class Vector
 
 		return new Vector(b.X * scale, b.Y * scale, b.Z * scale);
 	}
-
-    // Override ToString for easy printing
-    public override string ToString(){
-        return $"Vector({X}, {Y}, {Z})";
-    }
+	public static Vector operator /(Vector a, Vector b){
+		return Projection(a, b);
+	}
 
 }
 
 public class Ray //to shoot in a pixel direction from a player
 {
+	public Vector origin;
+	public Vector direction;
+	public Vector? collision;
 	
+	public Ray(Vector origin_, Vector dir_)
+	{
+		origin = origin_;
+		direction = dir_;
+	}
 }
 
-public class Grid
+public static class Grid //might be remade in Form
 {
-	public int width;
-	public int height;
-	public int width_segments;
-	public int height_segments;
-	private Color[,] values;
+	public static int width;
+	public static int height;
+	public static int width_segments;
+	public static int height_segments;
+	private static Color[,] values;
 	
-	public Grid(int ws, int hs)
+	public static void Create(int ws, int hs)
 	{
 		width_segments = ws;
 		height_segments = hs;
@@ -112,7 +119,7 @@ public class Grid
 		
 	}
 	
-	public Evaluate() //calcalate all values in the given environment
+	public static void Evaluate() //calcalate all values in the given environment
 	{
 		for (int i = 0; i < height_segments; i++)
         {
@@ -126,16 +133,56 @@ public class Grid
 		}
 	}
 	
-	public Draw() //draw rectangles on the Form1
+	public static void Draw() //draw rectangles on the Form1
 	{
 		for (int i = 0; i < height_segments; i++)
         {
             for (int j = 0; j < width_segments; j++)
 			{
-				
+				Form1.DrawBlock(i,j);//no reference recieved
 			}
-			
 		}
 	}
 	
+}
+
+public class Object
+{
+	public Vector center;
+	public Color color;
+	private Vector[] faces;
+	
+	public void Object(Vector center_, Color color_)
+	{
+		center = center_;
+		color = color_;
+	}
+	
+	public bool Inside(Vector point)
+	{
+		foreach (var n in faces)
+		{
+			// if projection on normal is not less than normal length, then point is outside
+			//if(!(Vector.Projection(Vector.Substract(point, center), n) < n.Length())){
+			if (  ((point-center)%n).Length() > n.Length() ){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public Vector Intersection(Ray ray)
+	{
+		// https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection#Parametric_form
+		Vector result;
+		foreach (var n in faces)
+		{
+			Vector plane_center = Vector.Add(center, n);
+			
+			double d = Vector.DotProduct(Vector.Subtract(plane_center, ray.origin), n) /
+				Vector.DotProduct(ray.direction, n);
+			//if slightly further point is inside then return
+			//Vector further = Vector.Add(
+		}
+	}
 }

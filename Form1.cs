@@ -27,4 +27,9 @@ public partial class Form1 : Form
 		}
 	}
 	
+	public static void DrawBlock(int i, int j)
+	{
+		
+	}
+	
 }
