@@ -19,10 +19,10 @@ public partial class Form1 : Form
 	
 	private void DrawSquare(Graphics g, int x, int y, int size, Color fillColor, Color borderColor)
 	{
-		// Create a brush for filling the square
+		//Create a brush for filling the square
 		using (Brush brush = new SolidBrush(fillColor))
 		{
-			// Fill the square
+			//Fill the square
 			g.FillRectangle(brush, x, y, size, size);
 		}
 	}

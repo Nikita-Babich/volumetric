@@ -67,7 +67,7 @@ public class Vector
 		a.x * b.x + a.y * b.y + a.z * b.z;
 		
 	// % Cross product
-	public static double operator %(Vector a, Vector b) =>
+	public static Vector operator %(Vector a, Vector b) =>
 		new Vector(
             a.y * b.z - a.z * b.y,
             a.z * b.x - a.x * b.z,
@@ -75,14 +75,14 @@ public class Vector
         );
 	
 	public static Vector Projection(Vector a, Vector b){
-		double bLengthSquared = b.X * b.X + b.Y * b.Y + b.Z * b.Z;
+		double bLengthSquared = b.x * b.x + b.y * b.y + b.z * b.z;
 		if (bLengthSquared == 0)
 			throw new InvalidOperationException("Cannot project onto a zero-length vector.");
 
-		double dotProduct = a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+		double dotProduct = a.x * b.x + a.y * b.y + a.z * b.z;
 		double scale = dotProduct / bLengthSquared;
 
-		return new Vector(b.X * scale, b.Y * scale, b.Z * scale);
+		return new Vector(b.x * scale, b.y * scale, b.z * scale);
 	}
 	public static Vector operator /(Vector a, Vector b){
 		return Projection(a, b);
@@ -152,13 +152,13 @@ public class Object
 	public Color color;
 	private Vector[] faces;
 	
-	public void Object(Vector center_, Color color_)
+	public Object(Vector center_, Color color_)
 	{
 		center = center_;
 		color = color_;
 	}
 	
-	public bool Inside(Vector point)
+	public virtual bool Inside(Vector point)
 	{
 		foreach (var n in faces)
 		{
@@ -171,18 +171,44 @@ public class Object
 		return true;
 	}
 	
-	public Vector Intersection(Ray ray)
-	{
+	// public Vector Intersection(Ray ray)
+	// {
 		// https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection#Parametric_form
-		Vector result;
-		foreach (var n in faces)
-		{
-			Vector plane_center = Vector.Add(center, n);
+		// Vector result;
+		// foreach (var n in faces)
+		// {
+			// Vector plane_center = Vector.Add(center, n);
 			
-			double d = Vector.DotProduct(Vector.Subtract(plane_center, ray.origin), n) /
-				Vector.DotProduct(ray.direction, n);
+			// double d = Vector.DotProduct(Vector.Subtract(plane_center, ray.origin), n) /
+				// Vector.DotProduct(ray.direction, n);
 			//if slightly further point is inside then return
 			//Vector further = Vector.Add(
-		}
-	}
+		// }
+	// }
+}
+
+// public class Sphere: Object
+// {
+	
+// }
+
+public class Quaternion
+{
+	public double r { get; private set; }
+	public double x { get; private set; }
+    public double y { get; private set; }
+    public double z { get; private set; }
+	
+	public Quaternion(double r_, double x_, double y_, double z_)
+    {
+		r = r_;
+        x = x_;
+        y = y_;
+        z = z_;
+    }
+	
+	public override string ToString(){
+        return $" Quaternion({r}, {x}, {y}, {z}) ";
+    }
+	
 }
