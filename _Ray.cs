@@ -4,6 +4,8 @@ public class Ray4D
 {
     public Vector4D pos { get; private set; } // Position of the ray's origin
     public Vector4D dir { get; private set; } // Direction of the ray
+	public Vector4D? hit { get; private set; }
+	public Color? color;
 
     public Ray4D(Vector4D pos_, Vector4D dir_)
     {

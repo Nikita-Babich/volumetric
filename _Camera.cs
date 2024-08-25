@@ -6,7 +6,15 @@ public class Camera
     public Vector4D right { get; private set; }
     public Vector4D forward { get; private set; }
     public Vector4D up { get; private set; }
-
+	
+	public Camera()
+    {
+        pos = new Vector4D(0, 0, 0, 0);          // Default position at origin
+        right = new Vector4D(1, 0, 0, 0);        // Aligned with x-axis
+        forward = new Vector4D(0, 1, 0, 0);      // Aligned with y-axis
+        up = new Vector4D(0, 0, 0, 1);           // Aligned with w-axis Global vertical
+    }
+	
     public Camera(Vector4D pos_, Vector4D right_, Vector4D forward_, Vector4D up_)
     {
         pos = pos_;
