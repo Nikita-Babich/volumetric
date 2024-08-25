@@ -1,3 +1,5 @@
+namespace Volumetric;
+
 public static class Grid //might be remade in Form
 {
 	public static int width;
