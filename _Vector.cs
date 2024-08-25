@@ -81,5 +81,5 @@ public class Vector4D
     public static Vector4D operator *(double scalar, Vector4D a) => a.Multiply(scalar);
     public static Vector4D operator /(Vector4D a, double scalar) => a.Divide(scalar);
 
-    public override string ToString() => $" Vector4D({x}, {y}, {z}, {w}) ";
+    public override string ToString() => $"({x}, {y}, {z}, {w})";
 }
