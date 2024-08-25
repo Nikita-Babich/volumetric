@@ -1,47 +1,16 @@
 namespace Volumetric;
 
-public class Object
+public abstract class Object4D
 {
-	public Vector center;
-	public Color color;
-	private Vector[] faces;
-	
-	public Object(Vector center_, Color color_)
-	{
-		center = center_;
-		color = color_;
-	}
-	
-	public virtual bool Inside(Vector point)
-	{
-		foreach (var n in faces)
-		{
-			// if projection on normal is not less than normal length, then point is outside
-			//if(!(Vector.Projection(Vector.Substract(point, center), n) < n.Length())){
-			if (  ((point-center)%n).Length() > n.Length() ){
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	// public Vector Intersection(Ray ray)
-	// {
-		// https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection#Parametric_form
-		// Vector result;
-		// foreach (var n in faces)
-		// {
-			// Vector plane_center = Vector.Add(center, n);
-			
-			// double d = Vector.DotProduct(Vector.Subtract(plane_center, ray.origin), n) /
-				// Vector.DotProduct(ray.direction, n);
-			//if slightly further point is inside then return
-			//Vector further = Vector.Add(
-		// }
-	// }
-}
+    public Vector4D pos { get; protected set; }   // Position of the object
+    public string color { get; protected set; }   // Color of the object (could be improved with a Color class)
+    public Matrix4D rotation { get; protected set; } // Rotation of the object
 
-// public class Sphere: Object
-// {
+    protected Object4D(Vector4D pos_, string color_, Matrix4D rotation_)
+    {
+        pos = pos_;
+        color = color_;
+        rotation = rotation_;
+    }
 	
-// }
+}
