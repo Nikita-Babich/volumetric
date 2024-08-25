@@ -47,9 +47,6 @@ public class Camera
 
     public override string ToString()
     {
-        return $"Camera Position: {pos}\n" +
-               $"Right Vector: {right}\n" +
-               $"Forward Vector: {forward}\n" +
-               $"Up Vector: {up}";
+        return $"Camera: pos={pos}\t right={right}\t forward={forward}\t up={up}\n";
     }
 }

@@ -7,7 +7,7 @@ public class Vector4D
     private double z;
     private double w;
 
-    public Vector4D(double x_, double y_, double z_, double w_)
+    public Vector4D(double x_, double y_, double z_, double w_) 
     {
         x = x_;
         y = y_;
