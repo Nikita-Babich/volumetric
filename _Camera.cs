@@ -2,6 +2,7 @@ namespace Volumetric;
 
 public class Camera
 {
+	
     public Vector4D pos { get; private set; }
     public Vector4D right { get; private set; }
     public Vector4D forward { get; private set; }

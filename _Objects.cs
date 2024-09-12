@@ -32,6 +32,10 @@ public class Sphere4D : Object4D
 		color = color_;
         radius = radius_;
     }
+	
+	public Sphere4D(string gen){
+		
+	}
 
     public override bool Inside(Vector4D point)
     {
@@ -69,4 +73,16 @@ public class Sphere4D : Object4D
     {
         return base.ToString() + $"\nRadius: {Radius}";
     }
+}
+
+public class World
+{
+	public List<Object4D> objects;
+	
+	public World(string filename){
+		//take the name of a file to load from
+	}
+	public World(){
+		//load from tester.cs
+	}
 }

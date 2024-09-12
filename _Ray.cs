@@ -10,7 +10,12 @@ public class Ray4D
     public Ray4D(Vector4D pos_, Vector4D dir_)
     {
         pos = pos_;
-        dir = dir_.Normalize(); // Ensure direction is normalized
+        dir = dir_.Normalize();
+    }
+	
+	public Ray4D(int xpixel, int ypixel)
+    {
+        // convert pixels to vectors and call previous constructor
     }
 	
 }

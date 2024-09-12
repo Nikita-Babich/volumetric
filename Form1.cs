@@ -2,10 +2,16 @@ namespace Volumetric;
 
 public partial class Form1 : Form
 {
+	public Grid grid;
+	public Camera camera;
+	
+	
     public Form1()
     {
         InitializeComponent();
 		this.Size = new Size(400, 400);
+		World level1 = World();
+		Camera camera = Camera();
     }
 	
 	protected override void OnPaint(PaintEventArgs e)

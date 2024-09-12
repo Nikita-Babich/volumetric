@@ -1,14 +1,14 @@
 namespace Volumetric;
 
-public static class Grid //might be remade in Form
+public class Grid //might be remade in Form
 {
-	public static int width;
-	public static int height;
-	public static int width_segments;
-	public static int height_segments;
-	private static Color[,] values;
+	public int width;
+	public int height;
+	public int width_segments;
+	public int height_segments;
+	private Color[,] values;
 	
-	public static void Create(int ws, int hs)
+	public void Create(int ws, int hs)
 	{
 		width_segments = ws;
 		height_segments = hs;
@@ -16,12 +16,17 @@ public static class Grid //might be remade in Form
 		
 	}
 	
-	public static void Evaluate() //calcalate all values in the given environment
+	public static PixelToVectors(int i, int j, Vector4D& pos, Vector4D& dir){
+		
+	}
+	
+	public void Evaluate() //calcalate all values in the given environment
 	{
 		for (int i = 0; i < height_segments; i++)
         {
             for (int j = 0; j < width_segments; j++)
 			{
+				Ray4D ray = Ray4D();
 				//find the direction ray
 				//Call function for intersections
 				//Vector ray = Ray.Shoot(Player, i,j);
